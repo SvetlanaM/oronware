@@ -1,15 +1,7 @@
 from django.contrib import admin
 from main.models import Illness, TemplateModel
+from herbs.admin import ImageInline
 
-class IllnessModel(admin.TabularInline):
-    model = TemplateModel
-    extra = 1
-    fields = (
-        'value',
-        'name',
-        'herb'
-    )
-    raw_id_fields = ['herb', ]
 
 
 class IllnessAdmin(admin.ModelAdmin):
@@ -27,8 +19,8 @@ class IllnessAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     ordering = ('title',)
     readonly_fields = ('show_herbs', )
-    inlines = [IllnessModel,]
     model = Illness
+    inlines = [ImageInline, ]
     fieldsets = [
         ('Basic information', {'fields':
             [
@@ -43,7 +35,19 @@ class IllnessAdmin(admin.ModelAdmin):
             'classes': ['collapse']
         }
          ),
+        ('Herbs', {'fields':
+            [
+                'show_herbs',
+            ],
+        }
+         ),
     ]
+
+    def save_model(self, request, obj, form, change):
+        obj.save()
+
+        for afile in request.FILES.getlist('photos_multiple'):
+            obj.illness_images.create(file=afile)
 
 
 admin.site.register(Illness, IllnessAdmin)

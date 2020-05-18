@@ -1,5 +1,6 @@
 from django.contrib import admin
 from main.models import Recipe, TemplateModel
+from herbs.admin import ImageInline
 
 class RecipeModel(admin.TabularInline):
     model = TemplateModel
@@ -27,7 +28,7 @@ class RecipeAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     ordering = ('title',)
     readonly_fields = ('show_herbs', )
-    inlines = [RecipeModel,]
+    inlines = [RecipeModel, ImageInline, ]
     model = Recipe
     fieldsets = [
         ('Basic information', {'fields':
@@ -44,6 +45,12 @@ class RecipeAdmin(admin.ModelAdmin):
         }
          ),
     ]
+
+    def save_model(self, request, obj, form, change):
+        obj.save()
+
+        for afile in request.FILES.getlist('photos_multiple'):
+            obj.recipe_images.create(file=afile)
 
 
 admin.site.register(Recipe, RecipeAdmin)

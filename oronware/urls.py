@@ -14,10 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
+
+
+admin.site.index_title = _('OronWare')
+admin.site.site_header = _('My Site Administration')
+admin.site.site_title = _('My Site Management')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(r'^advanced_filters/', include('advanced_filters.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,15 +12,23 @@ class TimeStampModel(models.Model):
 
 
 class ImageModel(models.Model):
-    image = models.ImageField(upload_to='media', blank=True, null=True)
+    file = models.FileField(upload_to='media', blank=True, null=True)
+    herb_photo = models.ForeignKey('herbs.Herb', verbose_name='herb_image', related_name='herb_images', blank=True, null=True, on_delete=models.CASCADE)
+    recipe_photo = models.ForeignKey('main.Recipe', verbose_name='recipe_image', related_name='recipe_images', blank=True, null=True, on_delete=models.CASCADE)
+    illness_photo = models.ForeignKey('main.Illness', verbose_name='illness_image', related_name='illness_images', blank=True, null=True, on_delete=models.CASCADE)
+
 
     class Meta:
-        verbose_name = 'Image'
-        verbose_name_plural = 'Images'
-        abstract = True
+        verbose_name = 'File'
+        verbose_name_plural = 'Files'
+
+
+    def get_name(self):
+        index = str(self.file.name).find("/") + 1
+        return str(self.file.name[index:])
 
     def __str__(self):
-        return self.image
+        return self.get_name()
 
 
 class AmountModel(models.Model):
@@ -65,13 +73,23 @@ class HerbTemplate(TimeStampModel):
 
 
 
-class Illness(HerbTemplate):
+class Illness(TimeStampModel):
     title = models.CharField(max_length=255, verbose_name="Illness")
+    description = models.TextField(blank=True)
+    note = models.TextField(blank=True)
 
     class Meta:
         verbose_name = 'Illness'
         verbose_name_plural = 'Illnesses'
         ordering = ('title', )
+
+    def __str__(self):
+        return self.title
+
+    def show_herbs(self):
+        return ",".join(query.title for query in self.herb_illnesses.all())
+    show_herbs.short_description = 'Use herbs'
+    show_herbs.admin_order_field = 'id'
 
 
 
@@ -127,6 +145,33 @@ class Contraindication(TimeStampModel):
 
     def __str__(self):
         return self.title
+
+
+class Substance(TimeStampModel):
+    title = models.CharField(max_length=255, verbose_name="Substances")
+    percentage = models.IntegerField(blank=True)
+    impact = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = 'Substance'
+        verbose_name_plural = 'Substances'
+
+    def __str__(self):
+        return "{} - {}%".format(self.title, self.percentage)
+
+
+class Study(TimeStampModel):
+    title = models.CharField(max_length=255, verbose_name="Study")
+    link = models.URLField(blank=True)
+
+    class Meta:
+        verbose_name = 'Study'
+        verbose_name_plural = 'Studies'
+
+    def __str__(self):
+        return self.title
+
+
 
 
 

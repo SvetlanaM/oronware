@@ -1,37 +1,88 @@
 from django.contrib import admin
 from .models import Herb
 from django.utils.html import mark_safe
+from main.models import ImageModel
+from advanced_filters.admin import AdminAdvancedFiltersMixin
+
+
+
+class ImageInline(admin.TabularInline):
+    model = ImageModel
+    extra = 0
+    classes = ['collapse']
+
+    readonly_fields = ('show_image', )
+
+    fieldsets = [
+        ('', {'fields':
+            [
+                ('file', 'show_image'),
+            ],
+        }
+         )
+    ]
+
+    def show_image(self, obj):
+        if obj.file:
+            type = obj.file.name[-3:]
+            if type in ('jpg', 'png', 'svg', 'jpeg', 'gif'):
+                return mark_safe('<a href="{url}" target="new"><img src="{url}" width="{width}" height={height} /></a>'.format(
+                    url = obj.file.url,
+                    width=200,
+                    height="auto"
+                    ))
+            if type in ('doc', 'docx', 'pdf', 'csv', 'xls', 'xlxs'):
+                return mark_safe(
+                    '<a href="{url}" target="new">File {name}</a>'.format(
+                        url=obj.file.url,
+                        name=obj.get_name()
+                    ))
+    show_image.short_description = 'File'
+    show_image.admin_ordering_field = 'File'
 
 
 
 
-
-class HerbAdmin(admin.ModelAdmin):
+class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
+    class Media:
+        pass
     list_display = (
         'title',
+        'latin_name',
         'alternative_name',
-        'show_image',
-        'show_video_url',
         'recipes_count',
         'illnesses_count',
+        'substances_count',
+        'contraindications_count',
     )
     search_fields = (
         'title',
         'alternative_name',
+        'latin_name',
         'templatemodel__recipe__title',
-        'templatemodel__illness__title',
+        'illnesses__title',
         'contraindications__title',
+        'substances__title',
         'effects__title',
     )
-    list_filter = (
-        'templatemodel__recipe__title',
-        'templatemodel__illness__title',
-        'contraindications__title',
+    list_filter = [
+        'substances__title',
         'effects__title',
+        'contraindications__title',
+        'illnesses__title',
+        'templatemodel__recipe__title',
+    ]
+    advanced_filter_fields = (
+        'substances__title',
+        'effects__title',
+        'contraindications__title',
+        'illnesses__title',
+        'templatemodel__recipe__title',
     )
+    inlines = [ImageInline]
     date_hierarchy = 'created'
     ordering = ('title', )
-    filter_horizontal = ['contraindications', 'effects']
+    filter_horizontal = ['contraindications', 'effects', 'substances', 'illnesses', 'studies',]
     list_max_show_all = 50
     list_editable = ('alternative_name', )
 
@@ -39,30 +90,57 @@ class HerbAdmin(admin.ModelAdmin):
         model = Herb
 
 
-    readonly_fields = ('illnesses_title', 'recipes_title', 'show_image', )
+    readonly_fields = ('illnesses_title', 'recipes_title', 'show_links',)
     fieldsets = [
         ('Basic information', {'fields':
                                    [
-                                       'title', 'alternative_name', 'description', 'video_link',
+                                       ('title', 'latin_name',),
+                                       'alternative_name',
+                                       'video_link', 'description',
+                                       'batching',
+                                       'planting',
                                    ]
                                }
          ),
-        ('Image', {'fields':
-                        [('image', 'show_image') ]
-                    }
-         ),
-        ('Others', {'fields':
-                        ['contraindications', 'effects'],
+        ('Effects', {'fields':
+                        [
+                            'effects',
+                        ],
                         'classes': ['collapse']
                     }
+         ),
+        ('Substances and contraindications', {'fields':
+            [
+                'substances',
+                'contraindications',
+            ],
+            'classes': ['collapse']
+        }
+         ),
+        ('Illnesses', {'fields':
+            [
+                'illnesses',
+            ],
+            'classes': ['collapse']
+        }
+         ),
+        ('Studies', {'fields':
+            [
+                'studies',
+                'show_links',
+            ],
+            'classes': ['collapse']
+        }
+         ),
+        ('Others', {'fields':
+            [
+                'note',
+            ],
+        }
          ),
         ('Recipes', {'fields':
                         ['recipes_title']
                     }
-         ),
-        ('Illnesses', {'fields':
-                         ['illnesses_title']
-                     }
          ),
     ]
 
@@ -94,26 +172,25 @@ class HerbAdmin(admin.ModelAdmin):
             return "Herb in 0 recipes"
     recipes_title.short_description = 'Recipes'
 
+    def show_links(self, obj):
+        studies = obj.studies.all()
+        if studies:
+            for query in studies:
+                return mark_safe("\n<br />".join('<a href="{url}" target="new">{url}</a>'.format(
+                    url=query.url,
+                    )))
+        else:
+            return "No links"
+    show_links.short_description = 'Studies links'
+    show_links.admin_ordering_field = 'Studies links'
 
-    def show_image(self, obj):
-        if obj.image:
-            return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
-                url = obj.image.url,
-                width=100,
-                height="auto"
-                ))
-    show_image.short_description = 'Image'
-    show_image.admin_ordering_field = 'Image'
 
+    def save_model(self, request, obj, form, change):
+        obj.save()
 
-    """
-    def show_youtube_video(self, obj):
-        return mark_safe('<iframe src="{url}" width="{width}" height="{height}" frameborder="0"></iframe>'.format(
-                url = obj.video_link,
-                width = 200,
-                height="auto"
-            ))
-    """
+        for afile in request.FILES.getlist('photos_multiple'):
+            obj.herb_images.create(file=afile)
+
 
 
 

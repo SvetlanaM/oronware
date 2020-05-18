@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import environ
+from django.utils.translation import ugettext_lazy as _
+
 env = environ.Env()
 environ.Env.read_env()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -45,6 +47,8 @@ INSTALLED_APPS = [
     'files',
     'illnesses',
     'main',
+    'advanced_filters',
+
 ]
 
 X_FRAME_OPTIONS='SAMEORIGIN'
@@ -53,11 +57,14 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'oronware.urls'
 
@@ -110,7 +117,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'cs'
+
+LANGUAGES = (
+    ('cs', u'Čeština'),
+)
 
 TIME_ZONE = 'UTC'
 
@@ -133,3 +144,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
