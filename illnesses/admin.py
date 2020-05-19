@@ -1,7 +1,7 @@
 from django.contrib import admin
 from main.models import Illness, TemplateModel
 from herbs.admin import ImageInline
-
+from django.utils.translation import gettext_lazy as _
 
 
 class IllnessAdmin(admin.ModelAdmin):
@@ -22,20 +22,20 @@ class IllnessAdmin(admin.ModelAdmin):
     model = Illness
     inlines = [ImageInline, ]
     fieldsets = [
-        ('Basic information', {'fields':
+        (_('Basic information'), {'fields':
             [
                 'title', 'description',
             ]
             }
          ),
-        ('Other', {'fields':
+        (_('Other'), {'fields':
             [
                 'note',
             ],
             'classes': ['collapse']
         }
          ),
-        ('Herbs', {'fields':
+        (_('Herbs'), {'fields':
             [
                 'show_herbs',
             ],

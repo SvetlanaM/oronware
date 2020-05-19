@@ -1,6 +1,7 @@
-{% load static %}
+{% load i18n static %}
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
-    <html lang="en">
+    <html lang="{{ LANGUAGE_CODE|default:"cs" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
         <head>
             <title>{% block title %}{% endblock %}</title>
             <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}">
@@ -101,11 +102,11 @@
         {% if has_permission %}
         <div id="user-tools">
             {% block welcome-msg %}
-                Welcome,
+                {% trans 'Welcome,' %}
                 <strong>{% firstof user.get_short_name user.get_username %}</strong>.
             {% endblock %}
             {% block userlinks %}
-                <a href="{% url 'admin:logout' %}">Log out</a>
+                <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
             {% endblock %}
         </div>
         {% endif %}
@@ -115,7 +116,7 @@
     <!-- END Header -->
     {% block breadcrumbs %}
     <div class="breadcrumbs">
-    <a href="{% url 'admin:index' %}">Home</a>
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
     {% if title %} &rsaquo; {{ title }}{% endif %}
     </div>
     {% endblock %}

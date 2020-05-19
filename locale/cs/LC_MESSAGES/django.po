@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-18 16:03+0200\n"
+"POT-Creation-Date: 2020-05-19 12:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,22 +19,313 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: herbs/models.py:22
-msgid "Herb"
-msgstr ""
+#: herbs/admin.py:40 main/models.py:22
+msgid "File"
+msgstr "Soubor"
 
-#: herbs/models.py:23
+#: herbs/admin.py:95 illnesses/admin.py:25 recipes/admin.py:35
+msgid "Basic information"
+msgstr "Základní informace"
+
+#: herbs/admin.py:105 main/models.py:133
+msgid "Effects"
+msgstr "Účinky"
+
+#: herbs/admin.py:112
+msgid "Substances and contraindications"
+msgstr "Kontraindikace a obsahové látky"
+
+#: herbs/admin.py:120 herbs/admin.py:159 main/models.py:83
+msgid "Illnesses"
+msgstr "Nemoci"
+
+#: herbs/admin.py:127 main/models.py:169
+msgid "Studies"
+msgstr "Studie"
+
+#: herbs/admin.py:135 main/apps.py:6
+msgid "Others"
+msgstr "Ostatní"
+
+#: herbs/admin.py:141 herbs/admin.py:173 main/models.py:102
+msgid "Recipes"
+msgstr "Recepty"
+
+#: herbs/admin.py:158
+msgid "Herb in 0 illnesses"
+msgstr "Bylinka se nenachází v žádné nemoci"
+
+#: herbs/admin.py:172
+msgid "Herb in 0 recipes"
+msgstr "Bylinka se nenachází v žádném receptu"
+
+#: herbs/admin.py:183
+msgid "No links"
+msgstr "Žádné linky"
+
+#: herbs/admin.py:184
+msgid "Studies links"
+msgstr "Studie - linky"
+
+#: herbs/apps.py:6
+msgid "hovno"
+msgstr "Bylinky"
+
+#: herbs/models.py:7 herbs/models.py:22
+msgid "Herb"
+msgstr "Bylinka"
+
+#: herbs/models.py:8
+msgid "alernative_name"
+msgstr "Alternativní název"
+
+#: herbs/models.py:9
+msgid "latin_name"
+msgstr "Latinský název"
+
+#: herbs/models.py:10 main/models.py:54 main/models.py:78
+msgid "description"
+msgstr "Popis"
+
+#: herbs/models.py:11
+msgid "video_link"
+msgstr "Video link"
+
+#: herbs/models.py:12
+msgid "batching"
+msgstr "Dávkování"
+
+#: herbs/models.py:13
+msgid "planting"
+msgstr "Pěstování"
+
+#: herbs/models.py:14 main/models.py:55 main/models.py:79
+msgid "note"
+msgstr "Poznámka"
+
+#: herbs/models.py:15
+msgid "contraindications"
+msgstr "Kontraindikace"
+
+#: herbs/models.py:16
+msgid "effects"
+msgstr "Účinky"
+
+#: herbs/models.py:17
+msgid "substances"
+msgstr "Obsahové látky"
+
+#: herbs/models.py:18
+msgid "illnesses"
+msgstr "Nemoci"
+
+#: herbs/models.py:19
+msgid "studies"
+msgstr "Studie"
+
+#: herbs/models.py:23 illnesses/admin.py:38 main/models.py:72
 msgid "Herbs"
-msgstr ""
+msgstr "Bylinky"
+
+#: herbs/models.py:32
+msgid "Video URL"
+msgstr "Video URL"
+
+#: herbs/models.py:36
+msgid "In recipes"
+msgstr "V receptech"
+
+#: herbs/models.py:42
+msgid "In illnesses"
+msgstr "V nemocech"
+
+#: herbs/models.py:47 main/models.py:151 main/models.py:157
+msgid "Substances"
+msgstr "Obsahové látky"
+
+#: herbs/models.py:52 main/models.py:144
+msgid "Contraindications"
+msgstr "Kontraindikace"
+
+#: illnesses/admin.py:31 recipes/admin.py:41
+msgid "Other"
+msgstr "Ostatní"
+
+#: main/models.py:7
+msgid "created"
+msgstr "vytvořeno"
+
+#: main/models.py:8
+msgid "updated"
+msgstr "aktualizováno"
+
+#: main/models.py:15
+msgid "file"
+msgstr "Soubor"
+
+#: main/models.py:16
+msgid "herb_image"
+msgstr "Obrázek bylinky"
+
+#: main/models.py:17
+msgid "recipe_image"
+msgstr "Obrázek receptu"
+
+#: main/models.py:18
+msgid "illness_image"
+msgstr "Obrázek nemoci"
+
+#: main/models.py:23
+msgid "Files"
+msgstr "Soubory"
+
+#: main/models.py:36
+msgid "kilograms"
+msgstr "kilogramy"
+
+#: main/models.py:37
+msgid "grams"
+msgstr "gramy"
+
+#: main/models.py:38
+msgid "pieces"
+msgstr "ks"
+
+#: main/models.py:39
+msgid "dekagrams"
+msgstr "dekagramy"
+
+#: main/models.py:41
+msgid "name"
+msgstr "Název"
+
+#: main/models.py:42
+msgid "value"
+msgstr "Hodnota"
+
+#: main/models.py:45
+msgid "Amount"
+msgstr "Množství"
+
+#: main/models.py:46
+msgid "Amounts"
+msgstr "Množství"
+
+#: main/models.py:77 main/models.py:82
+msgid "Illness"
+msgstr "Nemoc"
+
+#: main/models.py:91
+msgid "Use herbs"
+msgstr "Využívá bylinky"
+
+#: main/models.py:97 main/models.py:101
+msgid "Recipe"
+msgstr "Recept"
+
+#: main/models.py:98
+msgid "preparing"
+msgstr "Příprava"
+
+#: main/models.py:107
+msgid "herb"
+msgstr "Bylinka"
+
+#: main/models.py:108
+msgid "illness"
+msgstr "Nemoc"
+
+#: main/models.py:109
+msgid "recipe"
+msgstr "Recept"
+
+#: main/models.py:116
+msgid "Combination"
+msgstr "Kombinace"
+
+#: main/models.py:117
+msgid "Combinations"
+msgstr "Kombinace"
+
+#: main/models.py:123
+msgid "You already use this herb"
+msgstr "Tato bylinka je používáná"
+
+#: main/models.py:129 main/models.py:132
+msgid "Effect"
+msgstr "Účinek"
+
+#: main/models.py:140 main/models.py:143
+msgid "Contraindication"
+msgstr "Kontraindikace"
+
+#: main/models.py:152
+msgid "percentage"
+msgstr "Procento"
+
+#: main/models.py:153
+msgid "impact"
+msgstr "Účinek látky"
+
+#: main/models.py:156
+msgid "Substance"
+msgstr "Obsahová látka"
+
+#: main/models.py:164 main/models.py:168
+msgid "Study"
+msgstr "Studie"
+
+#: main/models.py:165
+msgid "link"
+msgstr "Link"
 
 #: oronware/urls.py:23
 msgid "OronWare"
-msgstr ""
+msgstr "OronWare"
 
 #: oronware/urls.py:24
 msgid "My Site Administration"
-msgstr ""
+msgstr "Administrace stránky"
 
 #: oronware/urls.py:25
 msgid "My Site Management"
+msgstr "Administrace stránky"
+
+#: templates/admin/base.html:105
+msgid "Welcome,"
+msgstr ""
+
+#: templates/admin/base.html:109
+msgid "Log out"
+msgstr ""
+
+#: templates/admin/base.html:119
+msgid "Home"
+msgstr ""
+
+#: templates/admin/herbs/herb/change_form.html:8
+#: templates/admin/main/illness/change_form.html:8
+#: templates/admin/main/recipe/change_form.html:8
+msgid "Upload more at once (images, files)"
+msgstr "Nahrajte jeden nebo více souborů (obrázky, dokumenty)"
+
+#: templates/admin/index.html:20
+#, python-format
+msgid "Models in the %(name)s application"
+msgstr ""
+
+#: templates/admin/index.html:31
+msgid "Add"
+msgstr ""
+
+#: templates/admin/index.html:38
+msgid "View"
+msgstr ""
+
+#: templates/admin/index.html:40
+msgid "Change"
+msgstr ""
+
+#: templates/admin/index.html:51
+msgid "You don't have permission to view or edit anything."
 msgstr ""

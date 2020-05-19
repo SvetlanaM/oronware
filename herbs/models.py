@@ -4,19 +4,19 @@ from django.utils.html import format_html, mark_safe
 from django.utils.translation import gettext_lazy as _
 
 class Herb(TimeStampModel):
-    title = models.CharField(max_length=255, verbose_name="Herb")
-    alternative_name = models.CharField(max_length=500, blank=True)
-    latin_name = models.CharField(max_length=255, blank=True)
-    description = models.TextField(blank=True)
-    video_link = models.URLField(blank=True)
-    batching = models.TextField(blank=True)
-    planting = models.TextField(blank=True)
-    note = models.TextField(blank=True)
-    contraindications = models.ManyToManyField(Contraindication, verbose_name='contraindications', blank=True, null=True)
-    effects = models.ManyToManyField(Effect, verbose_name='effects', blank=True, null=True)
-    substances = models.ManyToManyField(Substance, verbose_name='substances', blank=True, null=True)
-    illnesses = models.ManyToManyField(Illness, verbose_name='illnesses', blank=True, null=True, related_name='herb_illnesses')
-    studies = models.ManyToManyField(Study, verbose_name='studies', blank=True, null=True, related_name = 'studies')
+    title = models.CharField(max_length=255, verbose_name=_('Herb'))
+    alternative_name = models.CharField(max_length=500, blank=True, verbose_name=_('alernative_name'))
+    latin_name = models.CharField(max_length=255, blank=True, verbose_name=_('latin_name'))
+    description = models.TextField(blank=True, verbose_name=_('description'))
+    video_link = models.URLField(blank=True, verbose_name=_('video_link'))
+    batching = models.TextField(blank=True, verbose_name=_('batching'))
+    planting = models.TextField(blank=True, verbose_name=_('planting'))
+    note = models.TextField(blank=True, verbose_name=_('note'))
+    contraindications = models.ManyToManyField(Contraindication, blank=True, null=True, verbose_name=_('contraindications'))
+    effects = models.ManyToManyField(Effect, blank=True, null=True, verbose_name=_('effects'))
+    substances = models.ManyToManyField(Substance, blank=True, null=True, verbose_name=_('substances'))
+    illnesses = models.ManyToManyField(Illness, blank=True, null=True, related_name='herb_illnesses', verbose_name=_('illnesses'))
+    studies = models.ManyToManyField(Study, blank=True, null=True, related_name='studies', verbose_name=_('studies'))
 
     class Meta:
         verbose_name = _('Herb')
@@ -29,27 +29,27 @@ class Herb(TimeStampModel):
     def show_video_url(self):
         return format_html("<a href={} target='new'>{}</a>", mark_safe(self.video_link), self.video_link)
     show_video_url.allow_tags = True
-    show_video_url.short_description = 'Video URL'
+    show_video_url.short_description = _('Video URL')
 
     def recipes_count(self):
         return self.templatemodel_set.all().filter(illness__isnull=True).count()
-    recipes_count.short_description = 'In recipes'
+    recipes_count.short_description = _('In recipes')
     recipes_count.admin_order_field = 'id'
 
 
     def illnesses_count(self):
         return self.illnesses.all().count()
-    illnesses_count.short_description = 'In illnesses'
+    illnesses_count.short_description = _('In illnesses')
     illnesses_count.admin_order_field = 'id'
 
     def substances_count(self):
         return self.substances.all().count()
-    substances_count.short_description = 'Substances'
+    substances_count.short_description = _('Substances')
     substances_count.admin_order_field = 'id'
 
     def contraindications_count(self):
         return self.contraindications.all().count()
-    contraindications_count.short_description = 'Contraindications'
+    contraindications_count.short_description = _('Contraindications')
     contraindications_count.admin_order_field = 'id'
 
 

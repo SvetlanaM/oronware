@@ -2,8 +2,7 @@ from django.contrib import admin
 from .models import Herb
 from django.utils.html import mark_safe
 from main.models import ImageModel
-from advanced_filters.admin import AdminAdvancedFiltersMixin
-
+from django.utils.translation import gettext_lazy as _
 
 
 class ImageInline(admin.TabularInline):
@@ -37,13 +36,13 @@ class ImageInline(admin.TabularInline):
                         url=obj.file.url,
                         name=obj.get_name()
                     ))
-    show_image.short_description = 'File'
+    show_image.short_description = _('File')
     show_image.admin_ordering_field = 'File'
 
 
 
 
-class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
+class HerbAdmin(admin.ModelAdmin):
     class Media:
         pass
     list_display = (
@@ -72,13 +71,6 @@ class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
         'illnesses__title',
         'templatemodel__recipe__title',
     ]
-    advanced_filter_fields = (
-        'substances__title',
-        'effects__title',
-        'contraindications__title',
-        'illnesses__title',
-        'templatemodel__recipe__title',
-    )
     inlines = [ImageInline]
     date_hierarchy = 'created'
     ordering = ('title', )
@@ -92,7 +84,7 @@ class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
 
     readonly_fields = ('illnesses_title', 'recipes_title', 'show_links',)
     fieldsets = [
-        ('Basic information', {'fields':
+        (_('Basic information'), {'fields':
                                    [
                                        ('title', 'latin_name',),
                                        'alternative_name',
@@ -102,14 +94,14 @@ class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                                    ]
                                }
          ),
-        ('Effects', {'fields':
+        (_('Effects'), {'fields':
                         [
                             'effects',
                         ],
                         'classes': ['collapse']
                     }
          ),
-        ('Substances and contraindications', {'fields':
+        (_('Substances and contraindications'), {'fields':
             [
                 'substances',
                 'contraindications',
@@ -117,14 +109,14 @@ class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
             'classes': ['collapse']
         }
          ),
-        ('Illnesses', {'fields':
+        (_('Illnesses'), {'fields':
             [
                 'illnesses',
             ],
             'classes': ['collapse']
         }
          ),
-        ('Studies', {'fields':
+        (_('Studies'), {'fields':
             [
                 'studies',
                 'show_links',
@@ -132,13 +124,13 @@ class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
             'classes': ['collapse']
         }
          ),
-        ('Others', {'fields':
+        (_('Others'), {'fields':
             [
                 'note',
             ],
         }
          ),
-        ('Recipes', {'fields':
+        (_('Recipes'), {'fields':
                         ['recipes_title']
                     }
          ),
@@ -155,8 +147,8 @@ class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                 )))
             return mark_safe("\n<br />".join(temp_arr))
         else:
-            return "Herb in 0 illnesses"
-    illnesses_title.short_description = 'Illnesses'
+            return _("Herb in 0 illnesses")
+    illnesses_title.short_description = _('Illnesses')
 
     def recipes_title(self, obj):
         result = obj.templatemodel_set.all().filter(illness__isnull=True)
@@ -169,8 +161,8 @@ class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                 )))
             return mark_safe("\n<br />".join(temp_arr))
         else:
-            return "Herb in 0 recipes"
-    recipes_title.short_description = 'Recipes'
+            return _("Herb in 0 recipes")
+    recipes_title.short_description = _('Recipes')
 
     def show_links(self, obj):
         studies = obj.studies.all()
@@ -180,8 +172,8 @@ class HerbAdmin(AdminAdvancedFiltersMixin, admin.ModelAdmin):
                     url=query.url,
                     )))
         else:
-            return "No links"
-    show_links.short_description = 'Studies links'
+            return _("No links")
+    show_links.short_description = _('Studies links')
     show_links.admin_ordering_field = 'Studies links'
 
 

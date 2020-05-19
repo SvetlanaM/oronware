@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'files',
     'illnesses',
     'main',
-    'advanced_filters',
 
 ]
 

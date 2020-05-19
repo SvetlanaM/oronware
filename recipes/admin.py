@@ -1,6 +1,7 @@
 from django.contrib import admin
 from main.models import Recipe, TemplateModel
 from herbs.admin import ImageInline
+from django.utils.translation import gettext_lazy as _
 
 class RecipeModel(admin.TabularInline):
     model = TemplateModel
@@ -31,13 +32,13 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = [RecipeModel, ImageInline, ]
     model = Recipe
     fieldsets = [
-        ('Basic information', {'fields':
+        (_('Basic information'), {'fields':
             [
                 'title', 'description', 'preparing'
             ]
             }
          ),
-        ('Other', {'fields':
+        (_('Other'), {'fields':
             [
                 'note',
             ],

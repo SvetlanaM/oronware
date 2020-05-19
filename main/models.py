@@ -1,26 +1,26 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
-
+from django.utils.translation import gettext_lazy as _
 
 class TimeStampModel(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_('created'))
+    updated = models.DateTimeField(auto_now=True, verbose_name=_('updated'))
 
     class Meta:
         abstract = True
 
 
 class ImageModel(models.Model):
-    file = models.FileField(upload_to='media', blank=True, null=True)
-    herb_photo = models.ForeignKey('herbs.Herb', verbose_name='herb_image', related_name='herb_images', blank=True, null=True, on_delete=models.CASCADE)
-    recipe_photo = models.ForeignKey('main.Recipe', verbose_name='recipe_image', related_name='recipe_images', blank=True, null=True, on_delete=models.CASCADE)
-    illness_photo = models.ForeignKey('main.Illness', verbose_name='illness_image', related_name='illness_images', blank=True, null=True, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='media', blank=True, null=True, verbose_name=_('file'))
+    herb_photo = models.ForeignKey('herbs.Herb', verbose_name=_('herb_image'), related_name='herb_images', blank=True, null=True, on_delete=models.CASCADE)
+    recipe_photo = models.ForeignKey('main.Recipe', verbose_name=_('recipe_image'), related_name='recipe_images', blank=True, null=True, on_delete=models.CASCADE)
+    illness_photo = models.ForeignKey('main.Illness', verbose_name=_('illness_image'), related_name='illness_images', blank=True, null=True, on_delete=models.CASCADE)
 
 
     class Meta:
-        verbose_name = 'File'
-        verbose_name_plural = 'Files'
+        verbose_name = _('File')
+        verbose_name_plural = _('Files')
 
 
     def get_name(self):
@@ -33,17 +33,17 @@ class ImageModel(models.Model):
 
 class AmountModel(models.Model):
     AMOUNT_VALUES = (
-        ('kg', 'kilograms'),
-        ('g', 'grams'),
-        ('ks', 'pieces'),
-        ('dg', 'dekagrams'),
+        ('kg', _('kilograms')),
+        ('g', _('grams')),
+        ('ks', _('pieces')),
+        ('dg', _('dekagrams')),
     )
-    name = models.CharField(max_length=5, choices=AMOUNT_VALUES, blank=True)
-    value = models.PositiveIntegerField(blank=True)
+    name = models.CharField(max_length=5, choices=AMOUNT_VALUES, blank=True, verbose_name=_('name'))
+    value = models.PositiveIntegerField(blank=True, verbose_name=_('value'))
 
     class Meta:
-        verbose_name = 'Amount'
-        verbose_name_plural = 'Amounts'
+        verbose_name = _('Amount')
+        verbose_name_plural = _('Amounts')
         abstract = True
 
     def __str__(self):
@@ -51,8 +51,8 @@ class AmountModel(models.Model):
 
 
 class HerbTemplate(TimeStampModel):
-    description = models.TextField(blank=True)
-    note = models.TextField(blank=True)
+    description = models.TextField(blank=True, verbose_name=_('description'))
+    note = models.TextField(blank=True, verbose_name=_('note'))
 
     class Meta:
         abstract = True
@@ -66,107 +66,107 @@ class HerbTemplate(TimeStampModel):
         return self.title
 
     def show_herbs(self):
-        return "\n, ".join([
+        return ", \n".join([
             herb.herb.title for herb in self.templatemodel_set.all()
         ])
-    show_herbs.short_description = 'Herbs'
+    show_herbs.short_description = _('Herbs')
 
 
 
 class Illness(TimeStampModel):
-    title = models.CharField(max_length=255, verbose_name="Illness")
-    description = models.TextField(blank=True)
-    note = models.TextField(blank=True)
+    title = models.CharField(max_length=255, verbose_name=_("Illness"))
+    description = models.TextField(blank=True, verbose_name=_('description'))
+    note = models.TextField(blank=True, verbose_name=_('note'))
 
     class Meta:
-        verbose_name = 'Illness'
-        verbose_name_plural = 'Illnesses'
+        verbose_name = _('Illness')
+        verbose_name_plural = _('Illnesses')
         ordering = ('title', )
 
     def __str__(self):
         return self.title
 
     def show_herbs(self):
-        return ",".join(query.title for query in self.herb_illnesses.all())
-    show_herbs.short_description = 'Use herbs'
+        return ", \n".join(query.title for query in self.herb_illnesses.all())
+    show_herbs.short_description = _('Use herbs')
     show_herbs.admin_order_field = 'id'
 
 
 
 class Recipe(HerbTemplate):
-    title = models.CharField(max_length=255, verbose_name="Recipe")
-    preparing = models.TextField(blank=True)
+    title = models.CharField(max_length=255, verbose_name=_("Recipe"))
+    preparing = models.TextField(blank=True, verbose_name=_('preparing'))
 
     class Meta:
-        verbose_name = 'Recipe'
-        verbose_name_plural = 'Recipes'
+        verbose_name = _('Recipe')
+        verbose_name_plural = _('Recipes')
         ordering = ('title', )
 
 
 class TemplateModel(AmountModel, TimeStampModel):
-    herb = models.ForeignKey('herbs.Herb', on_delete=models.CASCADE, blank=True, null=True)
-    illness = models.ForeignKey(Illness, on_delete=models.CASCADE, blank=True, null=True)
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, blank=True, null=True)
+    herb = models.ForeignKey('herbs.Herb', on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('herb'))
+    illness = models.ForeignKey(Illness, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('illness'))
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_('recipe'))
 
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['herb', 'illness'], name="herb-illness"),
             models.UniqueConstraint(fields=['herb', 'recipe'], name="herb-recipe"),
         ]
-        verbose_name = 'Combination'
-        verbose_name_plural = 'Combinations'
+        verbose_name = _('Combination')
+        verbose_name_plural = _('Combinations')
 
     def validate_unique(self, exclude=None):
         try:
             super(TemplateModel, self).validate_unique()
         except ValidationError as e:
-            raise ValidationError("You already use this herb")
+            raise ValidationError(_("You already use this herb"))
 
 
 
 
 class Effect(TimeStampModel):
-    title = models.CharField(max_length=255, verbose_name="Effect")
+    title = models.CharField(max_length=255, verbose_name=_("Effect"))
 
     class Meta:
-        verbose_name = 'Effect'
-        verbose_name_plural = 'Effects'
+        verbose_name = _('Effect')
+        verbose_name_plural = _('Effects')
 
     def __str__(self):
         return self.title
 
 
 class Contraindication(TimeStampModel):
-    title = models.CharField(max_length=255, verbose_name="Contraindication")
+    title = models.CharField(max_length=255, verbose_name=_("Contraindication"))
 
     class Meta:
-        verbose_name = 'Contraindication'
-        verbose_name_plural = 'Contraindications'
+        verbose_name = _('Contraindication')
+        verbose_name_plural = _('Contraindications')
 
     def __str__(self):
         return self.title
 
 
 class Substance(TimeStampModel):
-    title = models.CharField(max_length=255, verbose_name="Substances")
-    percentage = models.IntegerField(blank=True)
-    impact = models.TextField(blank=True)
+    title = models.CharField(max_length=255, verbose_name=_("Substances"))
+    percentage = models.IntegerField(blank=True, verbose_name=_('percentage'))
+    impact = models.TextField(blank=True, verbose_name=_('impact'))
 
     class Meta:
-        verbose_name = 'Substance'
-        verbose_name_plural = 'Substances'
+        verbose_name = _('Substance')
+        verbose_name_plural = _('Substances')
 
     def __str__(self):
         return "{} - {}%".format(self.title, self.percentage)
 
 
 class Study(TimeStampModel):
-    title = models.CharField(max_length=255, verbose_name="Study")
-    link = models.URLField(blank=True)
+    title = models.CharField(max_length=255, verbose_name=_("Study"))
+    link = models.URLField(blank=True, verbose_name=_('link'))
 
     class Meta:
-        verbose_name = 'Study'
-        verbose_name_plural = 'Studies'
+        verbose_name = _('Study')
+        verbose_name_plural = _('Studies')
 
     def __str__(self):
         return self.title

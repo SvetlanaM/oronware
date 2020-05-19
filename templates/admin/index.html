@@ -1,5 +1,5 @@
 {% extends "admin/base_site.html" %}
-{% load static %}
+{% load i18n static %}
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
 
@@ -17,7 +17,7 @@
         <div class="app-{{ app.app_label }} module">
         <table>
         <caption>
-            <a href="{{ app.app_url }}" class="section" title="Models in the {{ name }} application">{{ app.name }}</a>
+            <a href="{{ app.app_url }}" class="section" title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">{{ app.name }}</a>
         </caption>
         {% for model in app.models %}
             <tr class="model-{{ model.object_name|lower }}">
@@ -28,16 +28,16 @@
             {% endif %}
 
             {% if model.add_url %}
-                <td><a href="{{ model.add_url }}" class="addlink">Add</a></td>
+                <td><a href="{{ model.add_url }}" class="addlink">{% trans 'Add' %}</a></td>
             {% else %}
                 <td></td>
             {% endif %}
 
             {% if model.admin_url %}
                 {% if model.view_only %}
-                <td><a href="{{ model.admin_url }}" class="viewlink">View</a></td>
+                <td><a href="{{ model.admin_url }}" class="viewlink">{% trans 'View' %}</a></td>
                 {% else %}
-                <td><a href="{{ model.admin_url }}" class="changelink">Change</a></td>
+                <td><a href="{{ model.admin_url }}" class="changelink">{% trans 'Change' %}</a></td>
                 {% endif %}
             {% else %}
                 <td></td>
@@ -48,7 +48,7 @@
         </div>
     {% endfor %}
 {% else %}
-    <p>You don’t have permission to view or edit anything.</p>
+    <p>{% trans "You don't have permission to view or edit anything." %}</p>
 {% endif %}
 </div>
 {% endblock %}
