@@ -149,7 +149,7 @@ class Contraindication(TimeStampModel):
 
 class Substance(TimeStampModel):
     title = models.CharField(max_length=255, verbose_name=_("Substances"))
-    percentage = models.IntegerField(blank=True, verbose_name=_('percentage'))
+    percentage = models.IntegerField(blank=True, verbose_name=_('percentage'), null=True)
     impact = models.TextField(blank=True, verbose_name=_('impact'))
 
     class Meta:
@@ -157,7 +157,7 @@ class Substance(TimeStampModel):
         verbose_name_plural = _('Substances')
 
     def __str__(self):
-        return "{} - {}%".format(self.title, self.percentage)
+        return self.title
 
 
 class Study(TimeStampModel):
