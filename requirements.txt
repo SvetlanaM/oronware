@@ -1,0 +1,5 @@
+django==2.2.*
+django-environ
+mysqlclient
+pillow
+django-advanced-filters
