@@ -166,11 +166,13 @@ class HerbAdmin(admin.ModelAdmin):
 
     def show_links(self, obj):
         studies = obj.studies.all()
+        temp_arr = []
         if studies:
             for query in studies:
-                return mark_safe("\n<br />".join('<a href="{url}" target="new">{url}</a>'.format(
-                    url=query.url,
+                temp_arr.append(mark_safe('<a href="{url}" target="new">{url}</a>'.format(
+                    url=query.link,
                     )))
+            return mark_safe("\n<br />".join(temp_arr))
         else:
             return _("No links")
     show_links.short_description = _('Studies links')
