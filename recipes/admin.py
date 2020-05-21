@@ -26,7 +26,6 @@ class RecipeAdmin(admin.ModelAdmin):
         'title',
         'templatemodel__herb__title',
     )
-    date_hierarchy = 'created'
     ordering = ('title',)
     readonly_fields = ('show_herbs', )
     inlines = [RecipeModel, ImageInline, ]

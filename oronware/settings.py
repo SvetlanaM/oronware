@@ -146,3 +146,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
+
+MAX_UPLOAD_SIZE = "5242880"

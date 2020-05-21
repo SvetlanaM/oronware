@@ -1,9 +1,9 @@
 from django.contrib import admin
 from .models import Herb
 from django.utils.html import mark_safe
-from main.models import ImageModel
+from main.models import ImageModel, Illness
 from django.utils.translation import gettext_lazy as _
-
+from django import forms
 
 class ImageInline(admin.TabularInline):
     model = ImageModel
@@ -72,9 +72,8 @@ class HerbAdmin(admin.ModelAdmin):
         'templatemodel__recipe__title',
     ]
     inlines = [ImageInline]
-    date_hierarchy = 'created'
     ordering = ('title', )
-    filter_horizontal = ['contraindications', 'effects', 'substances', 'illnesses', 'studies',]
+    filter_horizontal = ['contraindications', 'effects', 'substances', 'illnesses', 'studies', ]
     list_max_show_all = 50
     list_editable = ('alternative_name', )
 
@@ -172,7 +171,7 @@ class HerbAdmin(admin.ModelAdmin):
                 temp_arr.append(mark_safe('<a href="{url}" target="new">{url}</a>'.format(
                     url=query.link,
                     )))
-            return mark_safe("\n<br />".join(temp_arr))
+            return mark_safe("\n".join(temp_arr))
         else:
             return _("No links")
     show_links.short_description = _('Studies links')

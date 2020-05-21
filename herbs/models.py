@@ -2,6 +2,8 @@ from django.db import models
 from main.models import TimeStampModel, ImageModel, AmountModel, Contraindication, Effect, Substance, Illness, Study
 from django.utils.html import format_html, mark_safe
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
+
 
 class Herb(TimeStampModel):
     title = models.CharField(max_length=255, verbose_name=_('Herb'))
@@ -51,6 +53,10 @@ class Herb(TimeStampModel):
         return self.contraindications.all().count()
     contraindications_count.short_description = _('Contraindications')
     contraindications_count.admin_order_field = 'id'
+
+    def get_admin_url(self):
+        info = (self._meta.app_label, self._meta.model_name)
+        return reverse('admin:%s_%s_change' % info, args=[self.pk])
 
 
 
