@@ -25,6 +25,6 @@ local_settings.py
 
 .env
 db.sqlite3
-oronware/oronware/wsgi.py
+oronware/wsgi.py
 media/
 venv/
