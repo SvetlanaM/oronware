@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-21 14:17+0000\n"
+"POT-Creation-Date: 2020-07-27 14:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,49 +23,57 @@ msgstr ""
 msgid "File"
 msgstr "Soubor"
 
-#: herbs/admin.py:86 illnesses/admin.py:24 recipes/admin.py:34
+#: herbs/admin.py:94 illnesses/admin.py:24 recipes/admin.py:34
 msgid "Basic information"
 msgstr "Základní informace"
 
-#: herbs/admin.py:96 main/models.py:173
+#: herbs/admin.py:104 main/models.py:173
 msgid "Effects"
 msgstr "Účinky"
 
-#: herbs/admin.py:103
+#: herbs/admin.py:111
 msgid "Substances and contraindications"
 msgstr "Kontraindikace a obsahové látky"
 
-#: herbs/admin.py:111 herbs/admin.py:150 main/models.py:96
+#: herbs/admin.py:119 herbs/admin.py:158 main/models.py:96
 msgid "Illnesses"
 msgstr "Nemoci"
 
-#: herbs/admin.py:118 main/models.py:209
+#: herbs/admin.py:126 main/models.py:209
 msgid "Studies"
 msgstr "Studie"
 
-#: herbs/admin.py:126 main/apps.py:6
+#: herbs/admin.py:134 main/apps.py:6
 msgid "Others"
 msgstr "Ostatní"
 
-#: herbs/admin.py:132 herbs/admin.py:164 main/models.py:130 main/models.py:140
+#: herbs/admin.py:140 herbs/admin.py:172 main/models.py:130 main/models.py:140
 msgid "Recipes"
 msgstr "Recepty"
 
-#: herbs/admin.py:149
+#: herbs/admin.py:157
 msgid "Herb in 0 illnesses"
 msgstr "Bylinka se nenachází v žádné nemoci"
 
-#: herbs/admin.py:163 main/models.py:129
+#: herbs/admin.py:171 main/models.py:129
 msgid "Herb in 0 recipes"
 msgstr "Bylinka se nenachází v žádném receptu"
 
-#: herbs/admin.py:176
+#: herbs/admin.py:184
 msgid "No links"
 msgstr "Žádné linky"
 
-#: herbs/admin.py:177
+#: herbs/admin.py:185
 msgid "Studies links"
 msgstr "Studie - linky"
+
+#: herbs/admin.py:206 herbs/admin.py:221 herbs/admin.py:235 herbs/admin.py:250
+msgid "No"
+msgstr "Žádné"
+
+#: herbs/admin.py:207 herbs/admin.py:222 herbs/admin.py:236 herbs/admin.py:251
+msgid "Details"
+msgstr "Detaily"
 
 #: herbs/apps.py:6
 msgid "hovno"
@@ -339,6 +347,26 @@ msgstr ""
 #: templates/admin/index.html:51
 msgid "You don't have permission to view or edit anything."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Contraindications"
+#~ msgid "Contraindications details"
+#~ msgstr "Kontraindikace"
+
+#, fuzzy
+#~| msgid "Effects"
+#~ msgid "Effects details"
+#~ msgstr "Účinky"
+
+#, fuzzy
+#~| msgid "Substances"
+#~ msgid "Substances details"
+#~ msgstr "Obsahové látky"
+
+#, fuzzy
+#~| msgid "Illnesses"
+#~ msgid "Illnesses details"
+#~ msgstr "Nemoci"
 
 #~ msgid "percentage"
 #~ msgstr "Procento"

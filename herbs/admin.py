@@ -81,7 +81,15 @@ class HerbAdmin(admin.ModelAdmin):
         model = Herb
 
 
-    readonly_fields = ('illnesses_title', 'recipes_title', 'show_links',)
+    readonly_fields = (
+                        'illnesses_title',
+                        'recipes_title',
+                        'show_links',
+                        'show_contraindication_details',
+                        'show_effects_details',
+                        'show_substances_details',
+                        'show_illness_details',
+    )
     fieldsets = [
         (_('Basic information'), {'fields':
                                    [
@@ -95,22 +103,22 @@ class HerbAdmin(admin.ModelAdmin):
          ),
         (_('Effects'), {'fields':
                         [
-                            'effects',
+                            'effects', 'show_effects_details',
                         ],
                         'classes': ['collapse']
                     }
          ),
         (_('Substances and contraindications'), {'fields':
-            [
-                'substances',
-                'contraindications',
-            ],
+        [
+            ('substances', 'show_substances_details', ),
+            ('contraindications', 'show_contraindication_details',)
+         ],
             'classes': ['collapse']
         }
          ),
         (_('Illnesses'), {'fields':
             [
-                'illnesses',
+                'illnesses', 'show_illness_details',
             ],
             'classes': ['collapse']
         }
@@ -183,6 +191,64 @@ class HerbAdmin(admin.ModelAdmin):
 
         for afile in request.FILES.getlist('photos_multiple'):
             obj.herb_images.create(file=afile)
+
+    def show_contraindication_details(self, obj):
+        contraindications = obj.contraindications.all()
+        temp_arr = []
+        if contraindications:
+            for query in contraindications:
+                temp_arr.append(mark_safe('<b>{title}</b> <br />Popis: {desc}<br /><br />'.format(
+                    title=query.title,
+                    desc=query.description if query.description is not None else "--"
+                )))
+            return mark_safe("\n".join(temp_arr))
+        else:
+            return _("No")
+    show_contraindication_details.short_description = _('Details')
+
+    def show_effects_details(self, obj):
+        effects = obj.effects.all()
+        temp_arr = []
+        if effects:
+            for query in effects:
+                temp_arr.append(mark_safe('<b>{title}</b> <br />Popis: {desc}<br />Poznámka: {note}<br /><br />'.format(
+                    title=query.title,
+                    desc=query.description if query.description is not None else "--",
+                    note = query.note if query.note is not None else "--"
+                )))
+            return mark_safe("\n".join(temp_arr))
+        else:
+            return _("No")
+    show_effects_details.short_description = _('Details')
+
+    def show_substances_details(self, obj):
+        substances = obj.substances.all()
+        temp_arr = []
+        if substances:
+            for query in substances:
+                temp_arr.append(mark_safe('<b>{title}</b> <br />Účinek: {impact}<br /><br />'.format(
+                    title=query.title,
+                    impact=query.impact if query.impact is not None else "--"
+                )))
+            return mark_safe("\n".join(temp_arr))
+        else:
+            return _("No")
+    show_substances_details.short_description = _('Details')
+
+    def show_illness_details(self, obj):
+        illnesses = obj.illnesses.all()
+        temp_arr = []
+        if illnesses:
+            for query in illnesses:
+                temp_arr.append(mark_safe('<b>{title}</b> <br />Popis: {desc}<br />Poznámka: {note}<br /><br />'.format(
+                    title=query.title,
+                    desc=query.description if query.description is not None else "--",
+                    note=query.note if query.note is not None else "--"
+                )))
+            return mark_safe("\n<br />".join(temp_arr))
+        else:
+            return _("No")
+    show_illness_details.short_description = _('Details')
 
 
 
