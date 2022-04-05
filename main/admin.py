@@ -21,7 +21,7 @@ class StudyAdmin(admin.ModelAdmin):
 
     inlines = [ImageInline, ]
 
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request, obj):
         obj.save()
 
         for afile in request.FILES.getlist('photos_multiple'):

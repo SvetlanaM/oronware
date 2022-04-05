@@ -1,9 +1,8 @@
 from django.contrib import admin
 from .models import Herb
 from django.utils.html import mark_safe
-from main.models import ImageModel, Illness
+from main.models import ImageModel
 from django.utils.translation import gettext_lazy as _
-from django import forms
 
 class ImageInline(admin.TabularInline):
     model = ImageModel
@@ -39,12 +38,10 @@ class ImageInline(admin.TabularInline):
     show_image.short_description = _('File')
     show_image.admin_ordering_field = 'File'
 
-
-
-
 class HerbAdmin(admin.ModelAdmin):
     class Media:
         pass
+
     list_display = (
         'title',
         'latin_name',
@@ -249,8 +246,5 @@ class HerbAdmin(admin.ModelAdmin):
         else:
             return _("No")
     show_illness_details.short_description = _('Details')
-
-
-
 
 admin.site.register(Herb, HerbAdmin)

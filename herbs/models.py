@@ -1,9 +1,8 @@
 from django.db import models
-from main.models import TimeStampModel, ImageModel, AmountModel, Contraindication, Effect, Substance, Illness, Study
+from main.models import TimeStampModel, Contraindication, Effect, Substance, Illness, Study
 from django.utils.html import format_html, mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
-
 
 class Herb(TimeStampModel):
     title = models.CharField(max_length=255, verbose_name=_('Herb'))

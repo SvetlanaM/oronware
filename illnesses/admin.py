@@ -1,9 +1,7 @@
 from django.contrib import admin
-from main.models import Illness, TemplateModel
+from main.models import Illness
 from herbs.admin import ImageInline
 from django.utils.translation import gettext_lazy as _
-
-
 class IllnessAdmin(admin.ModelAdmin):
     list_display = (
         'title',
@@ -42,11 +40,10 @@ class IllnessAdmin(admin.ModelAdmin):
          ),
     ]
 
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request, obj):
         obj.save()
-
+        
         for afile in request.FILES.getlist('photos_multiple'):
             obj.illness_images.create(file=afile)
-
 
 admin.site.register(Illness, IllnessAdmin)
